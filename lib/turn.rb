@@ -2,16 +2,14 @@ require "pry"
 def turn(board)
   puts "Please enter 1-9:"
   user_input = gets.strip
-  if user_input != nil
-   index = user_input.to_i
-   binding.pry
-     if index.between?(0,8)
-       move(board, index, players_character = "X")
-       display_board(board)
-     end
+  index = input_to_index(user_input)
+  if index < 8
+	if valid_move?(board, index) && index.between?(0, 8)
+		move(board, index, players_character = "X")
+		display_board(board)
+	end
   else
-   puts "Please enter 1-9:"
-    turn(board)
+	turn(board)
   end
 end
 
@@ -25,7 +23,7 @@ end
 
 def valid_move?(board, index)
   if !index_is_not_nil?(board[index])
-  	index_integer = board[index].to_i
+	index_integer = index.to_i
 	if !position_taken?(board, index) && index_integer.between?(0,8)
 	  return true
 	else
@@ -59,6 +57,5 @@ def input_to_index(user_input)
 end
 
 def move(board, index, players_character = "X")
-  index = input_to_index(index)
   board[index] = players_character
 end
